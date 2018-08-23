@@ -118,6 +118,7 @@ class ChecklistsViewController: UITableViewController, ItemDetailViewControllerD
             label.text = ""
         }
         
+        label.textColor = view.tintColor
         
     }
     

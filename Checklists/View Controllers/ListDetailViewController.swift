@@ -14,13 +14,21 @@ protocol ListDetailViewControllerDelegate: class {
     func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist)
 }
 
-class ListDetailViewController: UITableViewController, UITextFieldDelegate {
+class ListDetailViewController: UITableViewController, UITextFieldDelegate, IconPickerViewControllerDelegate {
+    func iconPicker(_ picker: IconPickerViewController, didPick iconName: String) {
+        self.iconName = iconName
+        iconImageView.image = UIImage(named: iconName)
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     weak var delegate: ListDetailViewControllerDelegate?
     var checklistToEdit: Checklist?
+    var iconName = "Folder"
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarbutton: UIBarButtonItem!
+    @IBOutlet weak var iconImageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +37,10 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
         if let checklist = checklistToEdit {
             title = "Edit Checklist"
             textField.text = checklist.name
+            iconName = checklist.iconName
             doneBarbutton.isEnabled = true
         }
+        iconImageView.image = UIImage(named: iconName)
         
         
         // Uncomment the following line to preserve selection between presentations
@@ -46,9 +56,20 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        return nil
+        if indexPath.section == 1 {
+            return indexPath
+        } else {
+            return nil
+        }
+
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PickIcon" {
+            let controller = segue.destination as! IconPickerViewController
+            controller.delegate = self
+        }
+    }
     
     
     @IBAction func cancel() {
@@ -60,10 +81,11 @@ class ListDetailViewController: UITableViewController, UITextFieldDelegate {
         
         if let checklist = checklistToEdit {
             checklist.name = textField.text!
+            checklist.iconName = iconName
             delegate?.listDetailViewController(self, didFinishEditing: checklist)
         } else {
-            let checklist = Checklist(name: textField.text!)
-            
+            let checklist = Checklist(name: textField.text!, iconName: iconName)
+     
             delegate?.listDetailViewController(self, didFinishAdding: checklist)
         }
         
