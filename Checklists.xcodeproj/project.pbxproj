@@ -319,6 +319,7 @@
 		3C1D07C321056AE100FE1672 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GMJPAA66P;
 				INFOPLIST_FILE = Checklists/Info.plist;
@@ -336,6 +337,7 @@
 		3C1D07C421056AE100FE1672 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5GMJPAA66P;
 				INFOPLIST_FILE = Checklists/Info.plist;
