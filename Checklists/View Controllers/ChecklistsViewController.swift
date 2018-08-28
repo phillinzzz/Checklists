@@ -138,8 +138,25 @@ class ChecklistsViewController: UITableViewController, ItemDetailViewControllerD
 
     func configureText(for cell: UITableViewCell, with item: ChecklistItem) {
         let label = cell.viewWithTag(1000) as! UILabel
+        let subtitle = cell.viewWithTag(1002) as! UILabel
         //label.text = item.text
         label.text = "\(item.itemID): \(item.text)"
+        
+        
+        if item.shouldRemind {
+            if item.dueDate <= Date() {
+                subtitle.text = "Expired!"
+            } else {
+                let formatter = DateFormatter()
+                formatter.dateStyle = .medium
+                formatter.timeStyle = .short
+      
+                subtitle.text = "Due Date: \(formatter.string(from: item.dueDate))"
+            }
+        } else {
+            subtitle.text = "Take what ever long as you wish!"
+        }
+        //subtitle.text = "no due time!"
     }
     
     

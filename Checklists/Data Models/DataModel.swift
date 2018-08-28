@@ -54,6 +54,10 @@ class DataModel {
     
     func sortChecklists() {
         lists.sort(by: {checklist1, checklist2 in return checklist1.name.localizedStandardCompare(checklist2.name) == .orderedAscending})
+        for checklist in lists {
+            checklist.items.sort(by: {item1, item2 in if item1.shouldRemind == item2.shouldRemind { return item1.dueDate < item2.dueDate } else if item1.shouldRemind == true && item2.shouldRemind == false { return true} else { return false} })
+            //checklist.items.sort(by: {item1, item2 in return })
+        }
     }
     
     func documentsDirectory() -> URL {
